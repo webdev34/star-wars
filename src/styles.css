@@ -1,0 +1,44 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+mat-form-field.mat-form-field {
+  display: block;
+}
+
+mat-dialog-container.mat-dialog-container {
+  padding: 40px;
+}
+
+.cdk-global-overlay-wrapper {
+  display: block;
+}
+
+.cdk-overlay-pane {
+  max-width: 80vw;
+  position: static;
+  margin: 5vw auto;
+  width: 40vw;
+}
+
+input.mat-input-element:disabled {
+  cursor: not-allowed;
+}
+
+th.mat-header-cell {
+  text-align: left;
+}
+
+mat-table th.mat-header-cell,
+mat-table td.mat-cell,
+td.mat-footer-cell {
+  padding-left: 15px;
+  vertical-align: middle;
+}
+
+.content[role="main"] {
+  display: table;
+  max-width: 1086px;
+}
+
+app-starships{
+  width: 90%;
+}

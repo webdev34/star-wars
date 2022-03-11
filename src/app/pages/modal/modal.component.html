@@ -1,0 +1,43 @@
+<mat-dialog-content [formGroup]="form">
+  <h2 mat-dialog-title>{{ data.name }}</h2>
+  <mat-form-field hintLabel="Name" >
+    <input  matInput formControlName="name" name="name"  type="text" />
+  </mat-form-field>
+
+  <mat-form-field hintLabel="Model">
+    <input   matInput formControlName="model" name="model" type="text" />
+  </mat-form-field>
+
+  <mat-form-field hintLabel="Cost">
+    <input matInput formControlName="cost_in_credits" name="cost_in_credits" type="text" />
+  </mat-form-field>
+
+  <mat-form-field hintLabel="Starship Class">
+    <input matInput formControlName="starship_class" name="starship_class" type="text" />
+  </mat-form-field>
+
+  <mat-form-field hintLabel="Passengers">
+    <input   matInput formControlName="passengers" name="passengers" type="text" />
+  </mat-form-field>
+
+  <mat-form-field hintLabel="Manufacturer">
+    <input matInput   formControlName="manufacturer" name="manufacturer" type="text" />
+  </mat-form-field>
+
+  <mat-form-field hintLabel="Max Atmosphering Speed">
+    <input matInput formControlName="max_atmosphering_speed" name="max_atmosphering_speed"  type="text" />
+  </mat-form-field>
+
+  <mat-form-field hintLabel="Length">
+    <input matInput  formControlName="length" name="length"  type="text" />
+  </mat-form-field>
+
+  <mat-form-field hintLabel="Hyperdrive Rating">
+    <input matInput  formControlName="hyperdrive_rating" name="hyperdrive_rating" type="text" />
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" (click)="close()">Close</button>
+</mat-dialog-actions>
