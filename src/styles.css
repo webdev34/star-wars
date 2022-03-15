@@ -42,3 +42,20 @@ td.mat-footer-cell {
 app-starships{
   width: 90%;
 }
+
+.mat-progress-spinner {
+  margin: 0 auto;
+}
+
+mat-column-group {
+  width: 150px;
+  max-width: 150px;
+}
+
+h2.title{
+  text-align: center;
+}
+
+.data-loading{
+  visibility: hidden;
+}

@@ -17,4 +17,21 @@ export class DataService {
   getSpaceshipSingleRecord(id:number): Observable<StarShip> {
     return this.http.get<StarShip>('https://swapi.dev/api/starships/'+ id);
   }
+
+  filterDataResults(dataArray: any, value: string) {
+
+    const reg = new RegExp(value, 'i');
+    let filteredResults = dataArray.filter((item) => {
+      let flag = false;
+      for (const prop in item) {
+        if (reg.test(item[prop])) {
+          flag = true;
+        }
+      }
+
+      return flag;
+    });
+
+    return filteredResults;
+  }
 }

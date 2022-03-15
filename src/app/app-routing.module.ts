@@ -7,7 +7,8 @@ import { VehiclesComponent } from './pages/vehicles/vehicles.component';
 const routes: Routes = [
   { path: 'starships', component: StarshipsComponent },
   { path: 'planets', component: PlanetsComponent },
-  { path: 'vehicles', component: VehiclesComponent }
+  { path: 'vehicles', component: VehiclesComponent },
+   {path: '', redirectTo: 'starships', pathMatch: 'full' }
 ];
 
 @NgModule({

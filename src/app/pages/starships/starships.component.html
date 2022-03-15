@@ -1,52 +1,89 @@
-<h2>Starships</h2>
-<mat-form-field appearance="standard">
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Search columns" id="search" name="search" #input />
-</mat-form-field>
+<h2 class="title">Starships</h2>
 
-<mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort matSortActive="name" matSortDisableClear matSortDirection="asc">
-  <!-- <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+<mat-progress-spinner *ngIf="!dataLoaded" [mode]="'indeterminate'" [value]="50">
+</mat-progress-spinner>
+<section [ngClass]="{ 'data-loading': !dataLoaded }">
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Search columns"
+      id="search"
+      name="search"
+      #input
+    />
+  </mat-form-field>
+
+  <mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z8"
+    matSort
+    matSortActive="name"
+    matSortDisableClear
+    matSortDirection="asc"
+  >
+    <!-- <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
     <td mat-cell *matCellDef="let emp"> {{emp[column]}} </td>
   </ng-container> -->
 
-<ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-    <td mat-cell *matCellDef="let element"> {{checkIfEllipsisIsNeeded(element.name)}} </td>
-  </ng-container>
-  <ng-container matColumnDef="model">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Model </th>
-    <td mat-cell *matCellDef="let element"> {{checkIfEllipsisIsNeeded(element.model)}} </td>
-  </ng-container>
-  <ng-container matColumnDef="manufacturer">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Manufacturer </th>
-    <td mat-cell *matCellDef="let element"> {{checkIfEllipsisIsNeeded(element.manufacturer)}} </td>
-  </ng-container>
-  <ng-container matColumnDef="passengers">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Passengers </th>
-    <td mat-cell *matCellDef="let element"> {{element.passengers}} </td>
-  </ng-container>
-  <ng-container matColumnDef="starship_class">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Starship Class</th>
-    <td mat-cell *matCellDef="let element"> {{checkIfEllipsisIsNeeded(element.starship_class)}} </td>
-  </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.name | ellipsis }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="model">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.model | ellipsis }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="manufacturer">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Manufacturer</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.manufacturer | ellipsis }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="passengers">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Passengers</th>
+      <td mat-cell *matCellDef="let element">{{ element.passengers }}</td>
+    </ng-container>
+    <ng-container matColumnDef="starship_class">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Starship Class</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.starship_class | ellipsis }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="view">
-      <th mat-header-cell *matHeaderCellDef> View </th>
-      <td mat-cell *matCellDef="let element; let i = index;">
-        <button mat-icon-button color="accent" aria-label="View Record" (click)="viewRecord(element)">
-            <mat-icon class="mat-18">remove_red_eye</mat-icon>
+    <ng-container matColumnDef="view">
+      <th mat-header-cell *matHeaderCellDef>View</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <button
+          mat-icon-button
+          color="accent"
+          aria-label="View Record"
+          (click)="viewRecord(element)"
+        >
+          <mat-icon class="mat-18">remove_red_eye</mat-icon>
         </button>
       </td>
     </ng-container>
     <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef> Delete </th>
-        <td mat-cell *matCellDef="let element; let i = index;">
-          <button mat-icon-button color="warn" aria-label="Delete Record" (click)="deleteRecord(element)">
-              <mat-icon class="mat-18">delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </mat-table>
+      <th mat-header-cell *matHeaderCellDef>Delete</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <button
+          mat-icon-button
+          color="warn"
+          aria-label="Delete Record"
+          (click)="deleteRecord(element)"
+        >
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </mat-table>
+</section>

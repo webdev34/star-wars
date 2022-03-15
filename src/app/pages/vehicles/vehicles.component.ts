@@ -4,16 +4,18 @@ import { DataService } from '../../services/data.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-vehicles',
   templateUrl: './vehicles.component.html',
-  styleUrls: ['./vehicles.component.css']
+  styleUrls: ['./vehicles.component.css'],
 })
 export class VehiclesComponent implements OnInit {
   @ViewChild('input') input: ElementRef<HTMLInputElement>;
   @ViewChild(MatSort) sort: MatSort;
 
+  subscription;
   dataSource = new MatTableDataSource<Vehicle>();
   dataCopy: Vehicle[];
   displayedColumns = [
@@ -21,19 +23,22 @@ export class VehiclesComponent implements OnInit {
     'model',
     'manufacturer',
     'passengers',
-    'vehicle_class'
+    'vehicle_class',
   ];
+  dataLoaded = false;
 
   constructor(private dataService: DataService) {
-    this.dataService.getDataSet('vehicles').subscribe((data) => {
+    this.subscription = this.dataService
+      .getDataSet('vehicles')
+      .subscribe((data) => {
+        this.dataSource.data = data.results as Vehicle[];
+        for (let i = 0; i < this.dataSource.data.length; i++) {
+          this.dataSource.data[i].id = i;
+        }
 
-      this.dataSource.data = data.results as Vehicle[];
-      for (let i = 0; i < this.dataSource.data.length; i++) {
-        this.dataSource.data[i].id = i;
-      }
-
-      this.dataCopy = this.dataSource.data;
-    });
+        this.dataCopy = this.dataSource.data;
+        this.dataLoaded = true;
+      });
   }
 
   ngOnInit(): void {}
@@ -46,31 +51,16 @@ export class VehiclesComponent implements OnInit {
     inputField && inputField.focus();
   }
 
-  //COULDVE CREATED A PIPE
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   applyFilter(event: Event) {
     this.dataSource.data = this.dataCopy;
     const filterValue = (event.target as HTMLInputElement).value;
-    const reg = new RegExp(filterValue, 'i');
-    let filteredResults = this.dataSource.filteredData.filter((item) => {
-      let flag = false;
-      for (const prop in item) {
-        if (reg.test(item[prop])) {
-          flag = true;
-        }
-      }
-
-      return flag;
-    });
-
-    this.dataSource.data = filteredResults;
-  }
-
-  //COULDVE CREATED A PIPE
-  checkIfEllipsisIsNeeded(thisValue: string | number) {
-    //Needed to convert number to string
-    thisValue = thisValue + '';
-    return thisValue.length <= 20
-      ? thisValue
-      : thisValue.substring(0, 20) + '...';
+    this.dataSource.data = this.dataService.filterDataResults(
+      this.dataSource.data,
+      filterValue
+    );
   }
 }

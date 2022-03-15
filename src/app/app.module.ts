@@ -17,6 +17,8 @@ import { MatCommonModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { AppComponent } from './app.component';
 import { PlanetsComponent } from './pages/planets/planets.component';
@@ -25,13 +27,15 @@ import { VehiclesComponent } from './pages/vehicles/vehicles.component';
 import { ModalComponent } from './pages/modal/modal.component';
 
 import { DataService } from './services/data.service';
+import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
 @NgModule({
   declarations: [
     AppComponent,
     StarshipsComponent,
     PlanetsComponent,
     VehiclesComponent,
-    ModalComponent
+    ModalComponent,
+    EllipsisPipe
   ],
   imports: [
     BrowserAnimationsModule,
@@ -52,7 +56,9 @@ import { DataService } from './services/data.service';
     MatPaginatorModule,
     MatCommonModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule,
+    MatTabsModule
   ],
   exports: [],
   providers: [DataService],

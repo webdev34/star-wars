@@ -1,4 +1,5 @@
 export interface Planet {
+  id: number;
   name: string;
   rotation_period: number;
   orbital_period: number;

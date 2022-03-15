@@ -305,15 +305,20 @@
 <div class="content" role="main">
 
   <div class="card-container">
-    <a class="card card-small" routerLink="/starships">
+    <a class="card card-small" routerLink="/starships" [ngClass]="{'active': currentRoute == 'starships' || currentRoute == ''}">
+      <mat-icon class="mat-18">rocket</mat-icon>
       <span>Spaceships</span>
     </a>
-    <a class="card card-small" routerLink="/vehicles">
-      <span>Vehicles</span>
+    <a class="card card-small" routerLink="/vehicles" [ngClass]="{'active': currentRoute == 'vehicles'}">
+      <mat-icon class="mat-18">directions_car</mat-icon>
+      <span> Vehicles</span>
+
+
     </a>
 
-    <a class="card card-small" routerLink="/planets">
-      <span>Planets</span>
+    <a class="card card-small" routerLink="/planets" [ngClass]="{'active': currentRoute == 'planets'}">
+      <mat-icon class="mat-18">public</mat-icon>
+      <span> Planets</span>
     </a>
 
   </div>
