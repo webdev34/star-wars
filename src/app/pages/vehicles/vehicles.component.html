@@ -14,50 +14,33 @@
       #input
     />
   </mat-form-field>
-
   <mat-table
-    [dataSource]="dataSource"
-    class="mat-elevation-z8"
-    matSort
-    matSortActive="name"
-    matSortDisableClear
-    matSortDirection="asc"
-  >
-    <!-- <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-    <td mat-cell *matCellDef="let emp"> {{emp[column]}} </td>
-  </ng-container> -->
+  [dataSource]="dataSource"
+  class="mat-elevation-z8"
+  matSort
+  matSortActive="name"
+  matSortDirection="asc"
+>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  <ng-container *ngFor="let column of displayedColumns">
+    <ng-container
+      [matColumnDef]="column"
+    >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column }}</th>
+      <td mat-cell *matCellDef="let row">
+        <span *ngIf="row[column].length < 19">{{ row[column] }}</span>
+        <span
+          *ngIf="row[column].length > 19"
+          [matTooltip]="populateTooltip(column, row)"
+          >{{ row[column] | ellipsis }}</span
+        >
+      </td>
+    </ng-container>
+  </ng-container>
+</mat-table>
 
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.name| ellipsis }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="model">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.model| ellipsis }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="manufacturer">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Manufacturer</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.manufacturer| ellipsis }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="passengers">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Passengers</th>
-      <td mat-cell *matCellDef="let element">{{ element.passengers }}</td>
-    </ng-container>
-    <ng-container matColumnDef="vehicle_class">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehicle Class</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.vehicle_class| ellipsis }}
-      </td>
-    </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </mat-table>
+
+
 </section>

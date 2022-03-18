@@ -12,13 +12,6 @@ mat-dialog-container.mat-dialog-container {
   display: block;
 }
 
-.cdk-overlay-pane {
-  max-width: 80vw;
-  position: static;
-  margin: 5vw auto;
-  width: 40vw;
-}
-
 input.mat-input-element:disabled {
   cursor: not-allowed;
 }
@@ -32,6 +25,7 @@ mat-table td.mat-cell,
 td.mat-footer-cell {
   padding-left: 15px;
   vertical-align: middle;
+  text-transform: capitalize;
 }
 
 .content[role="main"] {
@@ -58,4 +52,8 @@ h2.title{
 
 .data-loading{
   visibility: hidden;
+}
+
+.mat-tooltip{
+  text-transform: capitalize;
 }

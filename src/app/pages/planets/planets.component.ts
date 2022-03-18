@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { FormControl } from '@angular/forms';
-import { TooltipPosition } from '@angular/material/tooltip';
+import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-planets',
   templateUrl: './planets.component.html',
@@ -17,8 +17,6 @@ export class PlanetsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   subscription;
-  positionOptions: TooltipPosition[] = ['below'];
-  position = new FormControl(this.positionOptions[0]);
   dataSource = new MatTableDataSource<Planet>();
   dataCopy: Planet[];
   dataLoaded = false;
@@ -31,32 +29,32 @@ export class PlanetsComponent implements OnInit {
     'gravity'
   ];
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private decimalPipe: DecimalPipe) {
 
     this.subscription = this.dataService.getDataSet('planets').subscribe((data) => {
       this.dataSource.data = data.results as Planet[];
-      for (let i = 0; i < this.dataSource.data.length; i++) {
-        this.dataSource.data[i].id = i;
-      }
+      // Added an ID to data items
+      this.dataSource.data.forEach((item, index) => item.id = index);
+      this.dataSource.data.map((item) => {
+        if(item.population != 'unknown'){
+          item.population =  this.decimalPipe.transform(Number(item.population), '1.0');
+        }
+      });
 
       this.dataCopy = this.dataSource.data;
       this.dataLoaded = true;
     });
   }
 
-
   ngOnInit(): void {
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
-    let inputField: HTMLElement = <HTMLElement>(
-      document.querySelectorAll('#search')[0]
-    );
-    inputField && inputField.focus();
   }
 
   ngOnDestroy() {
+    //Needed since ASYNC pipe would affect how Material tables NgChanges functions
     this.subscription.unsubscribe();
   }
 
@@ -64,5 +62,9 @@ export class PlanetsComponent implements OnInit {
     this.dataSource.data = this.dataCopy;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.data = this.dataService.filterDataResults(this.dataSource.data, filterValue);
+  }
+
+  populateTooltip(column, row) {
+    return row[column];
   }
 }

@@ -8,7 +8,7 @@ export interface Planet {
   gravity: string;
   terrain: string;
   surface_water: number;
-  population: number;
+  population: any; // String when converted with commas
   films: Array<string>;
   residents: Array<string>;
   created: string;

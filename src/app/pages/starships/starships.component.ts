@@ -6,6 +6,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 import { ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
+import { elementAt } from 'rxjs';
 
 @Component({
   selector: 'app-starships',
@@ -33,9 +34,8 @@ export class StarshipsComponent implements OnInit {
   constructor(private dataService: DataService, private modal: MatDialog) {
     this.subscription = this.dataService.getDataSet('starships').subscribe((data) => {
       this.dataSource.data = data.results as StarShip[];
-      for (let i = 0; i < this.dataSource.data.length; i++) {
-        this.dataSource.data[i].id = i;
-      }
+      // Added an ID to data items
+      this.dataSource.data.forEach((item, index) => item.id = index);
 
       this.dataCopy = this.dataSource.data;
       this.dataLoaded = true;
@@ -46,13 +46,10 @@ export class StarshipsComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
-    let inputField: HTMLElement = <HTMLElement>(
-      document.querySelectorAll('#search')[0]
-    );
-    inputField && inputField.focus();
   }
 
   ngOnDestroy() {
+    //Needed since ASYNC pipe would affect how Material tables NgChanges functions
     this.subscription.unsubscribe();
   }
 
@@ -63,19 +60,19 @@ export class StarshipsComponent implements OnInit {
     this.modal.open(ModalComponent, modalConfig);
   }
 
-  deleteRecord(starShip: any){
-    for (let i = 0; i < this.dataCopy.length; i++) {
-      if(this.dataCopy[i].id == starShip.id){
-        this.dataCopy.splice(i, 1);
-        this.dataSource.data = this.dataCopy;
-        this.dataSource._updateChangeSubscription();
-      }
-    }
+  deleteRecord(starShip: StarShip){
+    this.dataCopy = this.dataCopy.filter(item => item.id != starShip.id);
+    this.dataSource.data = this.dataCopy;
+    this.dataSource._updateChangeSubscription();
   }
 
   applyFilter(event: Event) {
     this.dataSource.data = this.dataCopy;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.data = this.dataService.filterDataResults(this.dataSource.data, filterValue);
+  }
+
+  populateTooltip(column, row) {
+    return row[column];
   }
 }

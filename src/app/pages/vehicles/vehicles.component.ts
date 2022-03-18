@@ -32,10 +32,8 @@ export class VehiclesComponent implements OnInit {
       .getDataSet('vehicles')
       .subscribe((data) => {
         this.dataSource.data = data.results as Vehicle[];
-        for (let i = 0; i < this.dataSource.data.length; i++) {
-          this.dataSource.data[i].id = i;
-        }
-
+         // Added an ID to data items
+        this.dataSource.data.forEach((item, index) => item.id = index);
         this.dataCopy = this.dataSource.data;
         this.dataLoaded = true;
       });
@@ -45,13 +43,10 @@ export class VehiclesComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
-    let inputField: HTMLElement = <HTMLElement>(
-      document.querySelectorAll('#search')[0]
-    );
-    inputField && inputField.focus();
   }
 
   ngOnDestroy() {
+    //Needed since ASYNC pipe would affect how Material tables NgChanges functions
     this.subscription.unsubscribe();
   }
 
@@ -62,5 +57,9 @@ export class VehiclesComponent implements OnInit {
       this.dataSource.data,
       filterValue
     );
+  }
+
+  populateTooltip(column, row) {
+    return row[column];
   }
 }
