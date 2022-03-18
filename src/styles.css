@@ -12,6 +12,11 @@ mat-dialog-container.mat-dialog-container {
   display: block;
 }
 
+div.cdk-overlay-pane {
+  margin: 0 auto;
+  max-width: 40vw !important;
+}
+
 input.mat-input-element:disabled {
   cursor: not-allowed;
 }

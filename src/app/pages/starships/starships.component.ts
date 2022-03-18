@@ -6,8 +6,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 import { ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { elementAt } from 'rxjs';
-
+import { DecimalPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 @Component({
   selector: 'app-starships',
   templateUrl: './starships.component.html',
@@ -31,14 +31,18 @@ export class StarshipsComponent implements OnInit {
   ];
   dataLoaded = false;
 
-  constructor(private dataService: DataService, private modal: MatDialog) {
+  constructor(private dataService: DataService, private modal: MatDialog, private decimalPipe: DecimalPipe, private currencyPipe: CurrencyPipe) {
     this.subscription = this.dataService.getDataSet('starships').subscribe((data) => {
       this.dataSource.data = data.results as StarShip[];
       // Added an ID to data items
       this.dataSource.data.forEach((item, index) => item.id = index);
-
+      this.dataSource.data.map((item) => {
+      item.length =  this.decimalPipe.transform(Number(item.length), '1.0');
+      item.cost_in_credits =  this.currencyPipe.transform(Number(item.cost_in_credits), 'USD');
+      });
       this.dataCopy = this.dataSource.data;
       this.dataLoaded = true;
+
     });
   }
 

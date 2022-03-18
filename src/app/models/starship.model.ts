@@ -1,13 +1,14 @@
 export interface StarShip {
+  map(arg0: (item: any) => void): StarShip;
   id:number;
   name: string;
   model: string;
   manufacturer: string;
-  cost_in_credits: number;
-  length: number;
+  cost_in_credits: any;
+  length: any;
   max_atmosphering_speed: number;
   crew: string;
-  passengers: string;
+  passengers: any;
   cargo_capacity: number;
   consumables: string;
   hyperdrive_rating: number;

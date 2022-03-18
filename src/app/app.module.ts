@@ -28,7 +28,8 @@ import { ModalComponent } from './pages/modal/modal.component';
 
 import { DataService } from './services/data.service';
 import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
-import { DecimalPipe } from '@angular/common'
+import { DecimalPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +63,7 @@ import { DecimalPipe } from '@angular/common'
     MatTabsModule
   ],
   exports: [],
-  providers: [DataService, DecimalPipe],
+  providers: [DataService, DecimalPipe, CurrencyPipe],
   bootstrap: [AppComponent],
   entryComponents: [ModalComponent]
 })
